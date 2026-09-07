@@ -1,0 +1,58 @@
+class Solution {
+    public boolean isAnagram(String s, String t) {
+		if(s.length() != t.length()) return false;
+
+		// int[] alphabet = new int[26];
+
+		// IntStream.range(0, s.length()).forEach(i -> {
+		// 	alphabet[s.charAt(i) - 'a']++;
+		// 	alphabet[t.charAt(i) - 'a']--; 
+		// });
+
+		// return Arrays.stream(alphabet).allMatch(n -> n == 0);
+
+		Map<Character, Integer> map = new HashMap<>(26);
+
+		IntStream.range(0, s.length()).forEach( i -> {
+			map.merge(
+				s.charAt(i), 1,
+				(oldValue, newValue)->Integer.sum(oldValue, newValue));
+			map.merge(t.charAt(i), -1, Integer :: sum);
+		});
+
+		return map.values().stream().allMatch(n -> n == 0);
+
+
+
+
+
+
+
+
+
+
+		
+        // Java < 8 solution
+		// for(int i=0; i<s.length(); i++){
+		// 	Character ch = s.charAt(i);
+		// 	if(map.containsKey(ch)){
+		// 		map.put(ch, map.get(ch)+1);
+		// 	}else map.put(ch, 1);
+		// }
+		// for(int i=0; i<t.length(); i++){
+		// 	Character ch  = t.charAt(i);
+		// 	if(map.containsKey(ch)){
+		// 		if(map.get(ch) >= 1)
+		// 		 map.put(ch, map.get(ch)-1);
+		// 	}
+		// }
+
+        // for(Map.Entry<Character, Integer> e: map.entrySet()){
+        //     if(e.getValue() != 0){
+        //         return false;
+        //     }
+        // }
+
+		// return true;
+    }
+}
